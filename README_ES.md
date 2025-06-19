@@ -1,5 +1,7 @@
 # Sistema E-commerce Basado en Microservicios
 
+> **🌍 English Documentation:** If you prefer to read this documentation in English, see [README.md](./README.md)
+
 ## 1. Introducción
 
 Este repositorio contiene la implementación de un sistema backend para una plataforma de e-commerce, diseñado bajo una arquitectura de microservicios. El objetivo es proporcionar una solución escalable, mantenible y resiliente para gestionar funcionalidades clave como autenticación de usuarios, catálogo de productos, procesamiento de órdenes y gestión de pagos.
@@ -129,6 +131,17 @@ NATS se utiliza como el bus de eventos principal para la comunicación asíncron
 ### Pasos para Ejecutar
 
 1. **Clonar el Repositorio:**
+
+    ```bash
+    git clone --recurse-submodules https://github.com/ecomerse-microservice/order-management-system.git
+    cd order-management-system
+    ```
+
+    Si ya clonaste sin submódulos, ejecuta:
+    ```bash
+    git submodule init
+    git submodule update
+    ```
 
 2. **Construir y Levantar los Contenedores:**
     Desde la raíz del proyecto (donde se encuentra `docker-compose.yml`):
