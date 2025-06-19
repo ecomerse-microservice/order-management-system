@@ -1,0 +1,15 @@
+[submodule "api-gateway"]
+	path = api-gateway
+	url = https://github.com/ecomerse-microservice/api-gateway.git
+[submodule "auth-microservice"]
+	path = auth-microservice
+	url = https://github.com/ecomerse-microservice/auth-microservice.git
+[submodule "orders-microservice"]
+	path = orders-microservice
+	url = https://github.com/ecomerse-microservice/orders-microservice.git
+[submodule "payments-management-microservice"]
+	path = payments-management-microservice
+	url = https://github.com/ecomerse-microservice/payments-management-microservice.git
+[submodule "products-management-microservice"]
+	path = products-management-microservice
+	url = https://github.com/ecomerse-microservice/products-management-microservice.git

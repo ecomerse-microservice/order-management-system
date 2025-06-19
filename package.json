@@ -1,0 +1,31 @@
+{
+  "name": "microservices-ecommerce",
+  "version": "1.0.0",
+  "description": "Sistema de microservicios para e-commerce con PostgreSQL",
+  "private": true,
+  "scripts": {
+    "dev:setup": "node scripts/dev-setup.js",
+    "dev:clean": "node scripts/clean-dev.js",
+    "dev:start": "docker-compose up --build -d",
+    "dev:stop": "docker-compose down",
+    "dev:restart": "npm run dev:stop && npm run dev:start",
+    "dev:logs": "docker-compose logs -f",
+    "dev:status": "docker-compose ps",
+    "help": "echo 'Comandos disponibles: npm run dev:setup, npm run dev:clean, npm run dev:start, npm run dev:stop, npm run dev:restart, npm run dev:logs, npm run dev:status'"
+  },
+  "keywords": [
+    "microservices",
+    "nestjs",
+    "postgresql",
+    "prisma",
+    "docker",
+    "nats",
+    "ecommerce"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+} 

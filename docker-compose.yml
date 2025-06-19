@@ -1,0 +1,126 @@
+version: '3'
+
+
+services:
+
+  
+  nats-server:
+    image: nats:latest
+    ports:
+      - "8222:8222"
+    
+  auth-db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: auth_password
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+
+  payments-db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: payments_db
+      POSTGRES_USER: payments_user
+      POSTGRES_PASSWORD: payments_password
+    volumes:
+      - payments_db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  orders-db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: orders_db
+      POSTGRES_USER: orders_user
+      POSTGRES_PASSWORD: orders_password
+    volumes:
+      - orders_db_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  products-db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: products_db
+      POSTGRES_USER: products_user
+      POSTGRES_PASSWORD: products_password
+    volumes:
+      - products_db_data:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - ${API_GATEWAY_PORT:-3000}:3000
+    volumes:
+      - ./api-gateway/src:/usr/src/app/src
+    command: npm run start:dev
+    env_file:
+      - ./api-gateway/.env
+    depends_on:
+      - nats-server
+
+  auth-microservice:
+    build: ./auth-microservice
+    volumes:
+      - ./auth-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+    env_file:
+      - ./auth-microservice/.env
+    depends_on:
+      - auth-db
+      - nats-server
+
+  products-management-microservice:
+    build: ./products-management-microservice
+    volumes:
+      - ./products-management-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+    env_file:
+      - ./products-management-microservice/.env
+    depends_on:
+      - products-db
+      - nats-server
+
+  
+  orders-microservice:
+    build: ./orders-microservice
+    volumes:
+      - ./orders-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+    env_file:
+      - ./orders-microservice/.env
+    depends_on:
+      - orders-db
+      - nats-server
+
+  payments-management-microservice:
+    container_name: payments-management-microservice
+    build: ./payments-management-microservice
+    volumes:
+      - ./payments-management-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+    ports:
+      - ${PAYMENTS_MANAGEMENT_MICROSERVICE_PORT:-3003}:3003
+    env_file:
+      - ./payments-management-microservice/.env
+    depends_on:
+      - payments-db
+      - nats-server
+
+volumes:
+  api_gateway_db_data:
+  auth_db_data:
+  payments_db_data:
+  orders_db_data:
+  products_db_data:
+      
